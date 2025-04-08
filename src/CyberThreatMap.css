@@ -1,0 +1,314 @@
+/* CyberThreatMap.css */
+.cyber-threat-map {
+    background-color: #0A1F44; /* Dark blue background for cybersecurity vibe */
+    color: #E0F7FA; /* Light cyan text for readability */
+    font-family: 'Roboto', Arial, sans-serif; /* Modern font for tech feel */
+    padding: 20px;
+    position: relative;
+  }
+  
+  /* Title Section Styles */
+  .title-section {
+    background: linear-gradient(135deg, #0A1F44 0%, #2E8B57 100%); /* Gradient from dark blue to dark mint green */
+    border: 2px solid #4B6CB7; /* Accent blue border */
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 30px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(46, 139, 87, 0.7); /* Stronger glow effect */
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* Main Title (Kemgen Solutions) */
+  .title-main {
+    font-family: 'Orbitron', sans-serif; /* Futuristic font */
+    font-size: 48px;
+    font-weight: 700;
+    color: #E0F7FA; /* Light cyan text */
+    text-shadow: 
+      0 0 10px rgba(46, 139, 87, 0.8),
+      0 0 20px rgba(46, 139, 87, 0.6),
+      0 0 30px rgba(46, 139, 87, 0.4); /* Neon glow effect */
+    margin: 0;
+    animation: pulse 2s infinite ease-in-out; /* Pulsing glow animation */
+  }
+  
+  /* Subtitle (Cyber Threat Intelligence) */
+  .title-sub {
+    font-family: 'Orbitron', sans-serif; /* Futuristic font */
+    font-size: 24px;
+    font-weight: 400;
+    color: #2E8B57; /* Dark mint green */
+    text-shadow: 0 0 5px rgba(46, 139, 87, 0.5); /* Subtle glow effect */
+    margin: 10px 0 0;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 3px solid #4B6CB7; /* Cursor effect for typing animation */
+    animation: 
+      typing 3s steps(30, end) forwards,
+      blink 0.75s step-end infinite; /* Typing and blinking cursor animations */
+  }
+  
+  /* Pulse Animation for Main Title */
+  @keyframes pulse {
+    0% {
+      text-shadow: 
+        0 0 10px rgba(46, 139, 87, 0.8),
+        0 0 20px rgba(46, 139, 87, 0.6),
+        0 0 30px rgba(46, 139, 87, 0.4);
+    }
+    50% {
+      text-shadow: 
+        0 0 15px rgba(46, 139, 87, 1),
+        0 0 25px rgba(46, 139, 87, 0.8),
+        0 0 35px rgba(46, 139, 87, 0.6);
+    }
+    100% {
+      text-shadow: 
+        0 0 10px rgba(46, 139, 87, 0.8),
+        0 0 20px rgba(46, 139, 87, 0.6),
+        0 0 30px rgba(46, 139, 87, 0.4);
+    }
+  }
+  
+  /* Typing Animation for Subtitle */
+  @keyframes typing {
+    from {
+      width: 0;
+    }
+    to {
+      width: 100%;
+    }
+  }
+  
+  /* Blinking Cursor Animation for Subtitle */
+  @keyframes blink {
+    from, to {
+      border-color: transparent;
+    }
+    50% {
+      border-color: #4B6CB7;
+    }
+  }
+  
+  /* Remove the old h2 style since we're now using a custom title section */
+  .cyber-threat-map h2:not(.title-sub) {
+    display: none; /* Hide the old h2 style */
+  }
+  
+  .map-dashboard-container {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+  }
+  
+  .map-container {
+    flex: 5.67; /* 85% of the width */
+    height: 600px;
+    border: 3px solid #2E8B57; /* Dark mint green border outline */
+    border-radius: 10px; /* Rounded corners for a polished look */
+    box-shadow: 0 0 15px rgba(46, 139, 87, 0.5); /* Glow effect with mint green */
+  }
+  
+  .leaflet-container {
+    background: #0A1F44; /* Match the dark blue background */
+    height: 100%;
+    width: 100%;
+    border-radius: 7px; /* Slightly smaller radius to fit within the container's border */
+  }
+  
+  .analytics-dashboard {
+    flex: 1; /* 15% of the width */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-height: 600px;
+    overflow-y: auto;
+  }
+  
+  /* Scrollbar styling for the dashboard */
+  .analytics-dashboard::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .analytics-dashboard::-webkit-scrollbar-track {
+    background: #1E3A8A; /* Lighter blue for scrollbar track */
+  }
+  
+  .analytics-dashboard::-webkit-scrollbar-thumb {
+    background: #2E8B57; /* Dark mint green for scrollbar thumb */
+    border-radius: 4px;
+  }
+  
+  .analytics-dashboard::-webkit-scrollbar-thumb:hover {
+    background: #4B6CB7; /* Accent blue on hover */
+  }
+  
+  .dashboard-section {
+    background: #1E3A8A; /* Lighter blue for sections */
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(46, 139, 87, 0.3); /* Subtle glow effect */
+  }
+  
+  /* Heading styles */
+  .dashboard-section h3,
+  .dashboard-section h4 {
+    font-weight: bold;
+    color: #2E8B57; /* Dark mint green */
+    text-shadow: 0 0 5px rgba(46, 139, 87, 0.5); /* Subtle glow effect */
+  }
+  
+  .dashboard-section h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  
+  .dashboard-section h4 {
+    font-size: 18px;
+    margin-bottom: 5px;
+  }
+  
+  .dashboard-section p {
+    font-size: 12px;
+    color: #E0F7FA; /* Light cyan text */
+  }
+  
+  .threat-item {
+    margin-top: 10px;
+  }
+  
+  .dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-left: 5px;
+  }
+  
+  .target-dot {
+    background-color: #ff5555; /* Red for target */
+  }
+  
+  .source-dot {
+    background-color: #4B6CB7; /* Accent blue for source */
+  }
+  
+  .malware-dot {
+    background-color: #FFD700; /* Gold for malware */
+  }
+  
+  .dashboard-section ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .dashboard-section li {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+    font-size: 14px;
+    color: #E0F7FA; /* Light cyan text */
+  }
+  
+  .flag-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+  }
+  
+  .attack-log {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .attack-item {
+    background: #0A1F44; /* Dark blue background */
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #4B6CB7; /* Accent blue border */
+  }
+  
+  .attack-item p {
+    margin: 5px 0;
+    font-size: 12px;
+    color: #E0F7FA; /* Light cyan text */
+  }
+  
+  /* Severity color classes */
+  .severity-critical {
+    color: #FF3333; /* Bright red for Critical */
+  }
+  
+  .severity-high {
+    color: #FF5555; /* Slightly lighter red for High */
+  }
+  
+  .severity-medium {
+    color: #FFD700; /* Gold for Medium */
+  }
+  
+  .severity-low {
+    color: #4B6CB7; /* Accent blue for Low */
+  }
+  
+  /* Styles for the Threat Analytics Dashboard */
+  .threat-dashboard {
+    background: #1E3A8A; /* Lighter blue background */
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(46, 139, 87, 0.3); /* Subtle glow effect */
+  }
+  
+  .analytics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+  }
+  
+  .analytic-card {
+    background: #0A1F44; /* Dark blue background */
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    border: 1px solid #4B6CB7; /* Accent blue border */
+    box-shadow: 0 0 5px rgba(46, 139, 87, 0.2); /* Subtle glow effect */
+  }
+  
+  .analytic-card h4 {
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+  
+  .analytic-card p {
+    font-size: 14px;
+    color: #E0F7FA; /* Light cyan text */
+  }
+  
+  .analytic-card ul {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+  }
+  
+  .analytic-card li {
+    font-size: 12px;
+    margin: 5px 0;
+    color: #E0F7FA; /* Light cyan text */
+  }
+  
+  /* Style for Leaflet popup content */
+  .popup-content {
+    background: #1E3A8A; /* Lighter blue background */
+    color: #E0F7FA; /* Light cyan text */
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #4B6CB7; /* Accent blue border */
+  }
+  
+  .popup-content strong {
+    color: #2E8B57; /* Dark mint green for state name */
+  }
