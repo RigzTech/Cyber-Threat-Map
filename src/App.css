@@ -1,38 +1,111 @@
-.App {
+/* App.css */
+.app-container {
+  padding: 20px;
+  background-color: #0A1F44;
+  min-height: 100vh;
+}
+
+/* Title Section Styles (copied from CyberThreatMap.css) */
+.title-section {
+  background: linear-gradient(135deg, #0A1F44 0%, #2E8B57 100%);
+  border: 2px solid #4B6CB7;
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 30px;
   text-align: center;
+  box-shadow: 0 0 20px rgba(46, 139, 87, 0.7);
+  position: relative;
+  overflow: hidden;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* Main Title (Kemgen Solutions) */
+.title-main {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 48px;
+  font-weight: 700;
+  color: #E0F7FA;
+  text-shadow: 
+    0 0 10px rgba(46, 139, 87, 0.8),
+    0 0 20px rgba(46, 139, 87, 0.6),
+    0 0 30px rgba(46, 139, 87, 0.4);
+  margin: 0;
+  animation: pulse 2s infinite ease-in-out;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+/* Subtitle (Cyber Threat Intelligence) */
+.title-sub {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  color: #2E8B57;
+  text-shadow: 0 0 5px rgba(46, 139, 87, 0.5);
+  margin: 10px 0 0;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 3px solid #4B6CB7;
+  animation: 
+    typing 3s steps(30, end) forwards,
+    blink 0.75s step-end infinite;
+}
+
+/* Pulse Animation for Main Title */
+@keyframes pulse {
+  0% {
+    text-shadow: 
+      0 0 10px rgba(46, 139, 87, 0.8),
+      0 0 20px rgba(46, 139, 87, 0.6),
+      0 0 30px rgba(46, 139, 87, 0.4);
+  }
+  50% {
+    text-shadow: 
+      0 0 15px rgba(46, 139, 87, 1),
+      0 0 25px rgba(46, 139, 87, 0.8),
+      0 0 35px rgba(46, 139, 87, 0.6);
+  }
+  100% {
+    text-shadow: 
+      0 0 10px rgba(46, 139, 87, 0.8),
+      0 0 20px rgba(46, 139, 87, 0.6),
+      0 0 30px rgba(46, 139, 87, 0.4);
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
+/* Typing Animation for Subtitle */
+@keyframes typing {
   from {
-    transform: rotate(0deg);
+    width: 0;
   }
   to {
-    transform: rotate(360deg);
+    width: 100%;
   }
+}
+
+/* Blinking Cursor Animation for Subtitle */
+@keyframes blink {
+  from, to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: #4B6CB7;
+  }
+}
+
+/* Map and Dashboard Layout */
+.map-dashboard-container {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.map-container {
+  flex: 5.67; /* 85% of the width */
+  height: 600px;
+  border: 3px solid #85e4ae; /* Dark mint green border outline */
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(46, 139, 87, 0.5);
+}
+
+.analytics-dashboard-bottom {
+  margin-top: 20px;
 }

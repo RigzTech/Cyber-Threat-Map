@@ -1,13 +1,17 @@
-import React from "react";
-import CyberThreatMap from "./CyberThreatMap";
-import "./App.css";
+import ErrorBoundary from './ErrorBoundary';
+import CyberThreatMap from './CyberThreatMap';
 
 function App() {
   return (
-    
-      <CyberThreatMap />
-    
+    <div className="app">
+      <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap"
+        rel="stylesheet"
+      />
+      <ErrorBoundary>
+        <CyberThreatMap />
+      </ErrorBoundary>
+    </div>
   );
 }
-
-export default App;
+export default App; // Ensure default export
