@@ -14,7 +14,6 @@ const CyberThreatMap = () => {
   const mapInstance = useRef(null);
   const svgLayer = useRef(null);
 
-  // Source countries (unchanged)
   const sourceCountries = [
     { name: 'Russia', lon: 37.6173, lat: 55.7558, gang: 'Evil Corp' },
     { name: 'China', lon: 116.4074, lat: 39.9042, gang: 'APT41' },
@@ -28,10 +27,12 @@ const CyberThreatMap = () => {
     { name: 'Romania', lon: 26.1025, lat: 44.4268, gang: 'Romanian Skimmers' },
   ];
 
-  // Destination cities (updated with Washington DC, Orlando, and Louisville)
   const destCities = [
     { name: 'Minneapolis', lon: -93.2650, lat: 44.9778 },
     { name: 'Dallas', lon: -96.7970, lat: 32.7767 },
+    { name: 'Austin', lon: -97.7431, lat: 30.2672 },
+    { name: 'Houston', lon: -95.3698, lat: 29.7604 },
+    { name: 'San Antonio', lon: -98.4936, lat: 29.4241 },
     { name: 'Seattle', lon: -122.3321, lat: 47.6062 },
     { name: 'Miami', lon: -80.1918, lat: 25.7617 },
     { name: 'Indianapolis', lon: -86.1581, lat: 39.7684 },
@@ -40,12 +41,11 @@ const CyberThreatMap = () => {
     { name: 'Sydney', lon: 151.2093, lat: -33.8688 },
     { name: 'New York', lon: -74.006, lat: 40.7128 },
     { name: 'Paris', lon: 2.3522, lat: 48.8566 },
-    { name: 'Washington DC', lon: -77.0369, lat: 38.9072 }, // Added Washington DC
-    { name: 'Orlando', lon: -81.3789, lat: 28.5383 }, // Added Orlando, Florida
-    { name: 'Louisville', lon: -85.7585, lat: 38.2527 }, // Added Louisville, Kentucky
+    { name: 'Washington DC', lon: -77.0369, lat: 38.9072 },
+    { name: 'Orlando', lon: -81.3789, lat: 28.5383 },
+    { name: 'Louisville', lon: -85.7585, lat: 38.2527 },
   ];
 
-  // Attack types
   const attackTypes = [
     { type: 'DDoS', color: '#ff4d4d' },
     { type: 'Malware', color: '#ffcc00' },
@@ -56,7 +56,6 @@ const CyberThreatMap = () => {
     { type: 'SQL Injection', color: '#9900ff' },
   ];
 
-  // Initial attack data
   const initialAttackData = sourceCountries.map(source =>
     destCities.map(dest => ({
       source: { lon: source.lon, lat: source.lat },
@@ -70,7 +69,6 @@ const CyberThreatMap = () => {
   const attackDataRef = useRef([...initialAttackData]);
   const historyRef = useRef([]);
 
-  // Lookup
   const countryLookup = {};
   sourceCountries.forEach(c => {
     countryLookup[`${c.lon},${c.lat}`] = c.name;
@@ -484,12 +482,10 @@ const CyberThreatMap = () => {
 
       console.log('Attack Summary:', summaryData, 'Top Source:', topSource, 'Top Dest:', topDest);
 
-      // Bar Chart (Updated)
+      // Bar Chart
       const chartContainer = d3.select(analyticsRef.current)
         .append('div')
-        .attr('class', 'chart-container bar-tile')
-        .style('width', '50%')
-        .style('min-width', '300px');
+        .attr('class', 'chart-container bar-tile dashboard-tile');
 
       chartContainer
         .append('div')
@@ -497,13 +493,16 @@ const CyberThreatMap = () => {
         .text('Attack Type Distribution');
 
       const margin = { top: 40, right: 30, bottom: 50, left: 50 };
-      const barWidth = 300;
       const barHeight = 200;
+      const containerWidth = chartContainer.node().getBoundingClientRect().width;
+      const barWidth = containerWidth - margin.left - margin.right;
 
       const barSvg = chartContainer
         .append('svg')
-        .attr('width', barWidth + margin.left + margin.right)
-        .attr('height', barHeight + margin.top + margin.bottom);
+        .attr('width', '100%')
+        .attr('height', barHeight + margin.top + margin.bottom)
+        .attr('viewBox', `0 0 ${barWidth + margin.left + margin.right} ${barHeight + margin.top + margin.bottom}`)
+        .attr('preserveAspectRatio', 'xMidYMid meet');
 
       const barG = barSvg.append('g')
         .attr('transform', `translate(${margin.left}, ${margin.top})`);
@@ -516,10 +515,9 @@ const CyberThreatMap = () => {
 
       const yScale = d3
         .scaleLinear()
-        .domain([0, d3.max(summaryData, d => d.count) * 1.1 || 10]) // Add padding to max value
+        .domain([0, d3.max(summaryData, d => d.count) * 1.1 || 10])
         .range([barHeight, 0]);
 
-      // Add Y-axis grid lines
       barG.append('g')
         .attr('class', 'grid')
         .call(d3.axisLeft(yScale)
@@ -538,7 +536,7 @@ const CyberThreatMap = () => {
         .append('rect')
         .attr('class', 'bar')
         .attr('x', d => xScale(d.type) || 0)
-        .attr('y', barHeight) // Start at bottom
+        .attr('y', barHeight)
         .attr('width', xScale.bandwidth())
         .attr('height', 0)
         .attr('fill', d => getAttackColor(d.type))
@@ -569,7 +567,6 @@ const CyberThreatMap = () => {
         .style('fill', '#00ffcc')
         .style('font-size', '12px');
 
-      // Add Y-axis label
       barG.append('text')
         .attr('class', 'axis-label')
         .attr('x', -barHeight / 2)
@@ -581,22 +578,21 @@ const CyberThreatMap = () => {
         .style('text-anchor', 'middle')
         .text('Number of Attacks');
 
-      // Recent Attacks Table
+      // Recent Attacks Table (Redesigned)
       const tableTile = d3.select(analyticsRef.current)
         .append('div')
-        .attr('class', 'dashboard-tile table-analysis-container')
-        .style('width', '50%')
-        .style('min-width', '300px');
+        .attr('class', 'dashboard-tile table-analysis-container');
 
       tableTile
         .append('div')
         .attr('class', 'tile-title')
         .text('Recent Attacks');
 
+      const tableSvgHeight = 200;
       const tableSvg = tableTile
         .append('svg')
         .attr('width', '100%')
-        .attr('height', 200);
+        .attr('height', tableSvgHeight);
 
       const recentAttacks = attackDataRef.current.slice(-5).map(attack => ({
         type: attack.type,
@@ -605,6 +601,31 @@ const CyberThreatMap = () => {
         dest: countryLookup[`${attack.dest.lon},${attack.dest.lat}`] || 'Unknown',
       }));
 
+      // Calculate column widths dynamically based on content
+      const headers = ['Type', 'Gang', 'Source', 'Dest'];
+      const rows = [headers, ...recentAttacks.map(d => [d.type, d.gang, d.source, d.dest])];
+
+      // Measure text widths to determine column widths
+      const tempSvg = tableTile.append('svg').attr('width', 0).attr('height', 0);
+      const textWidths = rows.map(row =>
+        row.map(text => {
+          const textElement = tempSvg
+            .append('text')
+            .attr('font-family', 'sans-serif')
+            .attr('font-size', '12px')
+            .text(text);
+          const width = textElement.node().getBBox().width + 20; // Add padding
+          textElement.remove();
+          return width;
+        })
+      );
+      tempSvg.remove();
+
+      const columnWidths = headers.map((_, i) =>
+        Math.max(...textWidths.map(row => row[i]))
+      );
+      const totalTableWidth = columnWidths.reduce((sum, w) => sum + w, 0);
+
       const tableG = tableSvg
         .selectAll('.table-g')
         .data([null])
@@ -612,43 +633,76 @@ const CyberThreatMap = () => {
         .attr('class', 'table-g')
         .attr('transform', 'translate(10, 20)');
 
-      tableG
+      // Draw table header
+      const headerRow = tableG
+        .selectAll('.table-header')
+        .data([headers])
+        .join('g')
+        .attr('class', 'table-header')
+        .attr('transform', 'translate(0, 0)');
+
+      headerRow
+        .selectAll('rect')
+        .data(headers)
+        .join('rect')
+        .attr('x', (_, i) => columnWidths.slice(0, i).reduce((sum, w) => sum + w, 0))
+        .attr('y', 0)
+        .attr('width', (_, i) => columnWidths[i])
+        .attr('height', 20)
+        .attr('fill', '#1a1a1a')
+        .attr('stroke', '#00ffcc')
+        .attr('stroke-width', 1);
+
+      headerRow
+        .selectAll('text')
+        .data(headers)
+        .join('text')
+        .attr('x', (_, i) => columnWidths.slice(0, i).reduce((sum, w) => sum + w, 0) + columnWidths[i] / 2)
+        .attr('y', 15)
+        .attr('fill', '#3399ff')
+        .attr('text-anchor', 'middle')
+        .attr('font-family', 'sans-serif')
+        .attr('font-size', '12px')
+        .attr('font-weight', 'bold')
+        .text(d => d);
+
+      // Draw table rows
+      const tableRows = tableG
         .selectAll('.table-row')
         .data(recentAttacks)
         .join('g')
         .attr('class', 'table-row')
-        .attr('transform', (d, i) => `translate(0, ${i * 20 + 20})`)
-        .each(function (d) {
-          d3.select(this)
-            .selectAll('text')
-            .data([d.type, d.gang, d.source, d.dest])
-            .join('text')
-            .attr('x', (d, i) => i * 80)
-            .attr('y', 0)
-            .attr('fill', '#00ffcc')
-            .text(d => d);
-        });
+        .attr('transform', (d, i) => `translate(0, ${i * 25 + 25})`);
 
-      tableG
-        .selectAll('.table-header')
-        .data([null])
-        .join('g')
-        .attr('class', 'table-header')
-        .attr('transform', 'translate(0, 0)')
-        .selectAll('text')
-        .data(['Type', 'Gang', 'Source', 'Dest'])
-        .join('text')
-        .attr('x', (d, i) => i * 80)
+      tableRows
+        .selectAll('rect')
+        .data(d => [d.type, d.gang, d.source, d.dest])
+        .join('rect')
+        .attr('x', (_, i) => columnWidths.slice(0, i).reduce((sum, w) => sum + w, 0))
         .attr('y', 0)
-        .attr('fill', '#3399ff')
+        .attr('width', (_, i) => columnWidths[i])
+        .attr('height', 20)
+        .attr('fill', 'transparent')
+        .attr('stroke', '#00ffcc')
+        .attr('stroke-width', 0.5);
+
+      tableRows
+        .selectAll('text')
+        .data(d => [d.type, d.gang, d.source, d.dest])
+        .join('text')
+        .attr('x', (_, i) => columnWidths.slice(0, i).reduce((sum, w) => sum + w, 0) + columnWidths[i] / 2)
+        .attr('y', 15)
+        .attr('fill', '#00ffcc')
+        .attr('text-anchor', 'middle')
+        .attr('font-family', 'sans-serif')
+        .attr('font-size', '12px')
         .text(d => d);
 
       // Analysis Text
       const analysisTile = d3.select(analyticsRef.current)
         .append('div')
         .attr('class', 'dashboard-tile table-analysis-container')
-        .style('width', '90%')
-        .style('min-width', '300px');
+        .style('width', '100%');
 
       analysisTile
         .append('div')
@@ -690,7 +744,7 @@ const CyberThreatMap = () => {
         mapInstance.current.remove();
       }
     };
-  }, []);
+  }, [attackTypes, countryLookup, destCities, sourceCountries]);
 
   return (
     <div className="cyber-threat-container">
@@ -706,6 +760,9 @@ const CyberThreatMap = () => {
           <div className="attack-dashboard" ref={analyticsRef} />
         </div>
       </div>
+      <footer className="footer-container">
+        <p>© 2025 KemGen Solutions. All rights reserved.</p>
+      </footer>
     </div>
   );
 };
